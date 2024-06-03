@@ -1,22 +1,36 @@
 <script setup>
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
+import Dropdown from 'primevue/dropdown';
 import Column from 'primevue/column'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 onMounted(async () => {
   const response = await fetch('./data.json')
   const data = await response.json()
   datatable.value = data
-  console.log(datatable)
 })
 
 const datatable = ref([])
 const drawResult = ref([])
+const mealType = ref('')
+const mealTypeDropDown = computed(()=>{
+  const mealType = datatable.value.map(item => item.type)
+  return mealType.filter(distinct)
+})
+const dataFilteredByMealType = computed(()=>{
+  if (!mealType.value) {
+    return datatable.value
+  }
+  return datatable.value.filter(item=> item.type === mealType.value)
+})
 
 function draw() {
-  const index = Math.floor(Math.random() * datatable.value.length)
-  drawResult.value = [datatable.value[index]]
+  const index = Math.floor(Math.random() * dataFilteredByMealType.value.length)
+  drawResult.value = [dataFilteredByMealType.value[index]]
+}
+function distinct(value, index, array) {
+  return array.indexOf(value) === index;
 }
 </script>
 
@@ -24,6 +38,8 @@ function draw() {
   <main>
     <div>
       <Button label="抽選" type="button" @click="draw()">抽選</Button>
+      <Dropdown v-model="mealType" :options="mealTypeDropDown" placeholder="篩選餐點類型" class="w-full md:w-14rem"></Dropdown>
+
       <DataTable :value="drawResult" tableStyle="min-width: 50rem">
         <template #header>
           <h3>抽選結果</h3>
