@@ -51,7 +51,7 @@ const direction = ref('全部 direction')
 const directionDropDown = computed(() => getDropDownlistItem('direction'))
 
 const score = ref('分數')
-const scoreDropDown = ['分數',1,2,3,4,5]
+const scoreDropDown = ['分數', 1, 2, 3, 4, 5]
 
 function getDropDownlistItem(datatableField) {
   const listitem = datatable.value.map(item => item[datatableField])
@@ -165,33 +165,5 @@ function distinct(value, index, array) {
         </template>
       </Column>
     </DataTable>
-
-
-    <!-- <DataTable :value="products" tableStyle="min-width: 50rem">
-
-    <Column field="name" header="Name"></Column>
-    <Column header="Image">
-        <template #body="slotProps">
-            <img :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`" :alt="slotProps.data.image" class="w-6rem border-round" />
-        </template>
-    </Column>
-    <Column field="price" header="Price">
-        <template #body="slotProps">
-            {{ formatCurrency(slotProps.data.price) }}
-        </template>
-    </Column>
-    <Column field="category" header="Category"></Column>
-    <Column field="rating" header="Reviews">
-        <template #body="slotProps">
-            <Rating :modelValue="slotProps.data.rating" readonly :cancel="false" />
-        </template>
-    </Column>
-    <Column header="Status">
-        <template #body="slotProps">
-            <Tag :value="slotProps.data.inventoryStatus" :severity="getSeverity(slotProps.data)" />
-        </template>
-    </Column>
-    <template #footer> In total there are {{ products ? products.length : 0 }} products. </template>
-</DataTable> -->
   </main>
 </template>
