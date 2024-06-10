@@ -3,6 +3,7 @@ import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
 import Dropdown from 'primevue/dropdown';
 import Column from 'primevue/column'
+import InputText from 'primevue/inputtext';
 import { computed, onMounted, ref, watch } from 'vue'
 import { read, writeFileXLSX, utils } from "xlsx";
 
@@ -12,25 +13,60 @@ onMounted(async () => {
   datatable.value = data
 })
 
-const datatable = ref([])
 const drawResult = ref([])
-const mealType = ref('全部類型')
+const datatable = ref([])
+
+const columns = ref([
+  { field: 'id', header: '編號' },
+  { field: 'name', header: '店名' },
+  { field: 'type', header: '類型' },
+  { field: 'score', header: '分數' },
+  { field: 'count', header: '次數' },
+  { field: 'weight', header: '權重' },
+  { field: 'direction', header: '方向' }
+])
+
+const editedData = ref([]);
+
+const onCellEditComplete = (event) => {
+  const { index, field, newValue } = event;
+  datatable.value[index][field] = newValue;
+
+  // 找到已編輯的數據，如果沒有則添加
+  const existingItem = editedData.value.find(item => item.index === index);
+  if (existingItem) {
+    existingItem[field] = newValue;
+  } else {
+    editedData.value.push({ index, ...datatable.value[index] });
+  }
+};
+
 const files = ref()
 const fileInput = ref()
 
-const mealTypeDropDown = computed(() => {
-  const mealType = datatable.value.map(item => item.type)
-  let dropDownList = ['全部類型']
-  dropDownList.push(...mealType.filter(distinct))
+const mealType = ref('全部 type')
+const mealTypeDropDown = computed(() => getDropDownlistItem('type'))
+
+const direction = ref('全部 direction')
+const directionDropDown = computed(() => getDropDownlistItem('direction'))
+
+const score = ref('分數')
+const scoreDropDown = ['分數',1,2,3,4,5]
+
+function getDropDownlistItem(datatableField) {
+  const listitem = datatable.value.map(item => item[datatableField])
+  let dropDownList = [`全部 ${datatableField}`]
+  dropDownList.push(...listitem.filter(distinct))
 
   return dropDownList
+}
+
+const dataFiltered = computed(() => {
+  const filterByMealType = mealType.value === '全部 type' ? datatable.value.filter(item => item.type !== '飲料') : datatable.value.filter(item => item.type === mealType.value)
+  const filterByDirection = direction.value === '全部 direction' ? filterByMealType : filterByMealType.filter(item => item.direction === direction.value)
+  const filterByScore = isNaN(score.value) ? filterByDirection : filterByDirection.filter(item => item.score >= score.value)
+  return filterByScore
 })
-
-const dataFilteredByMealType = computed(() => {
-  return mealType.value === '全部類型' ? datatable.value : datatable.value.filter(item => item.type === mealType.value)
-})
-
-
 
 async function fileOnChange(e) {
   const file = e.target.files[0]
@@ -75,8 +111,8 @@ function downloadOnClick(fileType) {
 }
 
 function draw() {
-  const index = Math.floor(Math.random() * dataFilteredByMealType.value.length)
-  drawResult.value = [dataFilteredByMealType.value[index]]
+  const index = Math.floor(Math.random() * dataFiltered.value.length)
+  drawResult.value = [dataFiltered.value[index]]
 }
 function distinct(value, index, array) {
   return array.indexOf(value) === index;
@@ -96,36 +132,41 @@ function distinct(value, index, array) {
     <hr>
     <div>
       <Button label="抽選" type="button" @click="draw()">抽選</Button>
-      <Dropdown v-model="mealType" :options="mealTypeDropDown" placeholder="篩選餐點類型" class="w-full md:w-14rem">
-      </Dropdown>
+      <Dropdown v-model="mealType" :options="mealTypeDropDown" class="w-full md:w-14rem" />
+      <Dropdown v-model="direction" :options="directionDropDown" class="w-full md:w-14rem" />
+      <Dropdown v-model="score" :options="scoreDropDown" class="w-full md:w-14rem" />
 
-      <DataTable :value="drawResult" tableStyle="min-width: 50rem">
+      <DataTable :value="drawResult">
         <template #header>
           <h3>抽選結果</h3>
         </template>
-        <Column field="name" header="名稱"></Column>
-        <Column field="type" header="類型"></Column>
-        <Column field="score" header="分數"></Column>
-        <Column field="count" header="次數"></Column>
-        <Column field="weight" header="權重"></Column>
-        <Column field="direction" header="方向"></Column>
+        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" style="width: 10%">
+          <template #body="{ data, field }">
+            {{ data[field] }}
+          </template>
+        </Column>
       </DataTable>
     </div>
 
     <br />
     <hr />
 
-    <DataTable :value="datatable" tableStyle="min-width: 50rem">
+    <DataTable :value="datatable" editMode="cell" paginator :rows="10" @cell-edit-complete="onCellEditComplete($event)"
+      tableStyle="min-width: 50rem">
       <template #header>
         <h2>記錄一覽</h2>
       </template>
-      <Column field="name" header="名稱"></Column>
-      <Column field="type" header="類型"></Column>
-      <Column field="score" header="分數"></Column>
-      <Column field="count" header="次數"></Column>
-      <Column field="weight" header="權重"></Column>
-      <Column field="direction" header="方向"></Column>
+      <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" style="width: 10%">
+        <template #body="{ data, field }">
+          {{ data[field] }}
+        </template>
+        <template #editor="{ data, field }">
+          <InputText v-model="data[field]" autofocus />
+        </template>
+      </Column>
     </DataTable>
+
+
     <!-- <DataTable :value="products" tableStyle="min-width: 50rem">
 
     <Column field="name" header="Name"></Column>
