@@ -4,6 +4,7 @@ import DataTable from 'primevue/datatable'
 import Dropdown from 'primevue/dropdown';
 import Column from 'primevue/column'
 import { computed, onMounted, ref, watch } from 'vue'
+import { read, writeFileXLSX, utils } from "xlsx";
 
 onMounted(async () => {
   const response = await fetch('./data.json')
@@ -14,15 +15,16 @@ onMounted(async () => {
 const datatable = ref([])
 const drawResult = ref([])
 const mealType = ref('')
-const mealTypeDropDown = computed(()=>{
+
+const mealTypeDropDown = computed(() => {
   const mealType = datatable.value.map(item => item.type)
   return mealType.filter(distinct)
 })
-const dataFilteredByMealType = computed(()=>{
+const dataFilteredByMealType = computed(() => {
   if (!mealType.value) {
     return datatable.value
   }
-  return datatable.value.filter(item=> item.type === mealType.value)
+  return datatable.value.filter(item => item.type === mealType.value)
 })
 
 function draw() {
@@ -38,7 +40,8 @@ function distinct(value, index, array) {
   <main>
     <div>
       <Button label="抽選" type="button" @click="draw()">抽選</Button>
-      <Dropdown v-model="mealType" :options="mealTypeDropDown" placeholder="篩選餐點類型" class="w-full md:w-14rem"></Dropdown>
+      <Dropdown v-model="mealType" :options="mealTypeDropDown" placeholder="篩選餐點類型" class="w-full md:w-14rem">
+      </Dropdown>
 
       <DataTable :value="drawResult" tableStyle="min-width: 50rem">
         <template #header>
