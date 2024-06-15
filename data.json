@@ -1,0 +1,154 @@
+[
+    {
+        "id": 1,
+        "name": "樂莉漢堡麗山店",
+        "type": "早餐店",
+        "score": 5.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 2,
+        "name": "青松義大利麵/胡椒兄弟",
+        "type": "西餐",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 3,
+        "name": "晚安早餐",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 4,
+        "name": "晚安早餐",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 5,
+        "name": "小辣椒早餐坊",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 6,
+        "name": "麥可義大利麵",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 7,
+        "name": "花樂發-內湖店",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 8,
+        "name": "葛莉莎披薩 Gloriosa Pizza",
+        "type": "西餐",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 9,
+        "name": "勝太郎和食專門店「湖光門市」",
+        "type": "日式",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 10,
+        "name": "早點初發 內湖總店",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 11,
+        "name": "滝禾製麵所-內湖江南店",
+        "type": "拉麵",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 12,
+        "name": "拉亞漢堡 內湖江南",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 13,
+        "name": "瑪莎義大利廚房",
+        "type": "西餐",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 14,
+        "name": "港町口鍋燒屋",
+        "type": "中餐",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 15,
+        "name": "麥味登 內湖波士店",
+        "type": "早餐店",
+        "score": 0.0,
+        "count": 1,
+        "weight": 1.0
+    },
+    {
+        "id": 16,
+        "name": "涼麵舖子",
+        "type": "中餐",
+        "score": 0.0,
+        "count": 0,
+        "weight": 1.0
+    },
+    {
+        "id": 17,
+        "name": "一前一町拉麵",
+        "type": "日式",
+        "score": 0.0,
+        "count": 0,
+        "weight": 1.0
+    },
+    {
+        "id": 18,
+        "name": "十鷄食堂",
+        "type": "日式",
+        "score": 0.0,
+        "count": 0,
+        "weight": 1.0
+    },
+    {
+        "id": 19,
+        "name": "MR. ENERGY 能量先生-台北內科店",
+        "type": "健康餐盒",
+        "score": 0.0,
+        "count": 0,
+        "weight": 1.0
+    }
+]
